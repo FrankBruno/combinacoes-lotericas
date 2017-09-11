@@ -1,10 +1,10 @@
 {
-    "name": "FrankBruno/combinacoes-lotofacil",
-    "description": "Projeto com combinações da lotofácil",
+    "name": "FrankBruno/combinacoes-lotericas",
+    "description": "Projeto com combinações lotéricas",
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=5.5.9",
+        "php": "^7.1",
         "silex/silex": "~2.0",
         "silex/web-profiler": "~2.0",
         "symfony/asset": "~2.8|^3.0",
@@ -24,7 +24,7 @@
         "symfony/validator": "~2.8|^3.0"
     },
     "autoload": {
-        "psr-0": { "": "src/" }
+        "psr-4": { "CombinacoesLotericas\\": "src/" }
     },
     "extra": {
         "branch-alias": {
