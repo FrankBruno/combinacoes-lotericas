@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-use CombinacoesLotericas\Gerador;
 
 $app->get('/', function () use ($app) {
     return $app['twig']->render('index.html.twig', array());
@@ -14,12 +13,6 @@ $app->get('/', function () use ($app) {
 
 $app->get('/gerador', function () use ($app) {
 
-    $gerador = new Gerador(3, 5);
-
-
-    gerar(0, 25, 0, 2, []);
-
-    return new JsonResponse($retorno);
 
 });
 

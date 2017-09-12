@@ -4,8 +4,41 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "65b6c0330832135ec795f7831ed4b309",
+    "content-hash": "2d367c8ce0cde226b0db8c33e67509bd",
     "packages": [
+        {
+            "name": "frankbruno/gerador-combinacoes",
+            "version": "v1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FrankBruno/gerador-combinacoes.git",
+                "reference": "64eb500f85f6961089e82efe9e8f4e409db9bc65"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FrankBruno/gerador-combinacoes/zipball/64eb500f85f6961089e82efe9e8f4e409db9bc65",
+                "reference": "64eb500f85f6961089e82efe9e8f4e409db9bc65",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "FrankBruno\\GeradorCombinacoes\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Frank Bruno",
+                    "email": "frank-bruno@msn.com"
+                }
+            ],
+            "description": "Ferramenta responsável por gerar combinações agrupadas.",
+            "time": "2017-09-12T00:46:36+00:00"
+        },
         {
             "name": "monolog/monolog",
             "version": "1.23.0",
@@ -2562,7 +2595,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.5.9"
+        "php": "^7.1"
     },
     "platform-dev": []
 }
