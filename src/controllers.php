@@ -19,26 +19,10 @@ $app->post(
     function (Request $request) use ($app) {
 
         $loterias = [
-            'frank' => [
-                'inicio' => 1,
-                'fim' => 4,
-                'agrupamento' => 2
-            ],
-            'lotofacil' => [
-                'inicio' => 1,
-                'fim' => 25,
-                'agrupamento' => 15
-            ],
-            'megasena' => [
-                'inicio' => 1,
-                'fim' => 60,
-                'agrupamento' => 6
-            ],
-            'minas5' => [
-                'inicio' => 1,
-                'fim' => 34,
-                'agrupamento' => 5
-            ],
+            'frank' => ['inicio' => 1, 'fim' => 4, 'agrupamento' => 2 ],
+            'lotofacil' => [ 'inicio' => 1, 'fim' => 25, 'agrupamento' => 15 ],
+            'megasena' => [ 'inicio' => 1, 'fim' => 60, 'agrupamento' => 6 ],
+            'minas5' => [ 'inicio' => 1, 'fim' => 34, 'agrupamento' => 5 ],
         ];
 
         echo '<pre>';
