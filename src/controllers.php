@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+use Loterias\ArquivoFactory;
 
 $app->get(
     '/',
@@ -19,10 +20,9 @@ $app->post(
     function (Request $request) use ($app) {
 
         $loterias = [
-            'frank' => ['inicio' => 1, 'fim' => 4, 'agrupamento' => 2 ],
-            'lotofacil' => [ 'inicio' => 1, 'fim' => 25, 'agrupamento' => 15 ],
-            'megasena' => [ 'inicio' => 1, 'fim' => 60, 'agrupamento' => 6 ],
-            'minas5' => [ 'inicio' => 1, 'fim' => 34, 'agrupamento' => 5 ],
+            'lotofacil' => ['inicio' => 1, 'fim' => 25, 'agrupamento' => 15],
+            'megasena' => ['inicio' => 1, 'fim' => 60, 'agrupamento' => 6],
+            'minas5' => ['inicio' => 1, 'fim' => 34, 'agrupamento' => 5],
         ];
 
         echo '<pre>';
@@ -47,13 +47,53 @@ $app->post(
 
             file_put_contents($nomeArquivo, $arquivo);
 
-            echo "Arquivo {$nomeArquivo} foi gravado em disco." . PHP_EOL. PHP_EOL. PHP_EOL;
+            echo "Arquivo {$nomeArquivo} foi gravado em disco." . PHP_EOL . PHP_EOL . PHP_EOL;
             $cont++;
         }
 
         echo '</pre>';
 
         return new JsonResponse("Foram gerados {$cont} arquivo(s)");
+    }
+);
+
+$app->post(
+    '/loterias/arquivos/agrupador-soma',
+    function (Request $request) use ($app) {
+
+        ini_set('memory_limit', -1);
+        ini_set('max_execution_time', 0);
+
+        $retorno = [];
+        $loterias = ['minas5'];
+
+        try {
+            foreach ($loterias as $loteria) {
+
+                $diretorioArquivo = __DIR__ . "/../arquivos/{$loteria}.txt";
+                $arquivo = ArquivoFactory::criarArquivo($loteria, $diretorioArquivo);
+                $agrupador = new Loterias\Agrupador($arquivo);
+
+                $agrupador->gerarPorSoma();
+
+                $retorno[] = [
+                    'loteria' => $loteria,
+                    'quantidade_arquivos' => $agrupador->getQuantidadeArquivosGerados(),
+                    'mensagem' => 'Arquivos gerados corretamente.'
+                ];
+            }
+
+            return new JsonResponse($retorno, Response::HTTP_CREATED);
+
+        } catch (Exception $e) {
+            return new JsonResponse(
+                [
+                    'mensagem' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString(),
+                ],
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 );
 
