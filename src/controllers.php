@@ -19,41 +19,52 @@ $app->post(
     '/loterias/gerador',
     function (Request $request) use ($app) {
 
-        $loterias = [
-            'lotofacil' => ['inicio' => 1, 'fim' => 25, 'agrupamento' => 15],
-            'megasena' => ['inicio' => 1, 'fim' => 60, 'agrupamento' => 6],
-            'minas5' => ['inicio' => 1, 'fim' => 34, 'agrupamento' => 5],
-        ];
 
-        echo '<pre>';
-        $cont = 0;
+        ini_set('memory_limit', -1);
+        ini_set('max_execution_time', 0);
 
-        foreach ($loterias as $nomeLoteria => $loteria) {
-            $modelo = \FrankBruno\GeradorCombinacoes\ModeloFactory::criar(
-                $loteria['inicio'],
-                $loteria['fim'],
-                $loteria['agrupamento']
-            );
-            $gerador = new \FrankBruno\GeradorCombinacoes\Gerador($modelo);
+        try {
+            $loterias = [
+                #'lotofacil' => ['inicio' => 1, 'fim' => 25, 'agrupamento' => 15],
+                #'megasena' => ['inicio' => 1, 'fim' => 60, 'agrupamento' => 6],
+                #'minas5' => ['inicio' => 1, 'fim' => 34, 'agrupamento' => 5],
+                #'duplasena' => ['inicio' => 1, 'fim' => 50, 'agrupamento' => 6],
+                #'quina' => ['inicio' => 1, 'fim' => 80, 'agrupamento' => 5],
+                #'timemania' => ['inicio' => 1, 'fim' => 80, 'agrupamento' => 7],
+            ];
 
-            echo "Gerando combinações da {$nomeLoteria}: Do {$loteria['inicio']} a {$loteria['fim']}, em grupos de {$loteria['agrupamento']}." . PHP_EOL;
+            echo '<pre>';
+            $cont = 0;
 
-            $arquivo = $gerador->gerarConteudo();
+            foreach ($loterias as $nomeLoteria => $loteria) {
+                $modelo = \FrankBruno\GeradorCombinacoes\ModeloFactory::criar(
+                    $loteria['inicio'],
+                    $loteria['fim'],
+                    $loteria['agrupamento']
+                );
+                $gerador = new \FrankBruno\GeradorCombinacoes\Gerador($modelo);
 
-            echo "Combinações foram geradas.." . PHP_EOL;
-            echo "Escrevendo arquivo em disco." . PHP_EOL;
+                echo "Gerando combinações da {$nomeLoteria}: Do {$loteria['inicio']} a {$loteria['fim']}, em grupos de {$loteria['agrupamento']}." . PHP_EOL;
 
-            $nomeArquivo = __DIR__ . "/../arquivos/{$nomeLoteria}.txt";
+                $arquivo = $gerador->gerarConteudo();
 
-            file_put_contents($nomeArquivo, $arquivo);
+                echo "Combinações foram geradas.." . PHP_EOL;
+                echo "Escrevendo arquivo em disco." . PHP_EOL;
 
-            echo "Arquivo {$nomeArquivo} foi gravado em disco." . PHP_EOL . PHP_EOL . PHP_EOL;
-            $cont++;
+                $nomeArquivo = __DIR__ . "/../arquivos/{$nomeLoteria}.txt";
+
+                file_put_contents($nomeArquivo, $arquivo);
+
+                echo "Arquivo {$nomeArquivo} foi gravado em disco." . PHP_EOL . PHP_EOL . PHP_EOL;
+                $cont++;
+            }
+
+            echo '</pre>';
+
+            return new JsonResponse("Foram gerados {$cont} arquivo(s)");
+        } catch (Exception $e) {
+            return new JsonResponse($e->getMessage());
         }
-
-        echo '</pre>';
-
-        return new JsonResponse("Foram gerados {$cont} arquivo(s)");
     }
 );
 
@@ -65,7 +76,7 @@ $app->post(
         ini_set('max_execution_time', 0);
 
         $retorno = [];
-        $loterias = ['minas5'];
+        $loterias = ['quina'];
 
         try {
             foreach ($loterias as $loteria) {
